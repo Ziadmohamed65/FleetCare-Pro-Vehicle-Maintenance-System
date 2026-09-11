@@ -530,7 +530,7 @@ Update the connection string according to your SQL Server configuration.
 ### 1. Clone the repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Ziadmohamed65/FleetCare-Pro-Vehicle-Maintenance-System.git
 ```
 
 ### 2. Open the project
