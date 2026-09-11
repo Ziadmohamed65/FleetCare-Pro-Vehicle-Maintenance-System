@@ -1,0 +1,248 @@
+﻿@model FleetCare_Pro.Models.ViewModels.Vehicle.VehicleDetailsViewModel
+
+@{
+    ViewData["Title"] = "Delete Vehicle";
+}
+
+<style>
+    .delete-page {
+        padding: 25px 0 60px;
+    }
+
+    .delete-card {
+        max-width: 760px;
+        margin: 0 auto;
+        background: #fff;
+        border: 1px solid #f0d5d5;
+        border-radius: 20px;
+        box-shadow: 0 12px 40px rgba(23, 32, 51, .07);
+        overflow: hidden;
+    }
+
+    .delete-header {
+        padding: 25px;
+        background: linear-gradient(135deg, #fff7f7, #fff);
+        border-bottom: 1px solid #f4dddd;
+    }
+
+    .delete-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        background: #ffe8e8;
+        color: #dc3545;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.35rem;
+        margin-bottom: 15px;
+    }
+
+    .delete-header h1 {
+        color: #172033;
+        font-size: 1.55rem;
+        font-weight: 750;
+        margin: 0 0 6px;
+    }
+
+    .delete-header p {
+        color: #8992a3;
+        margin: 0;
+        font-size: .86rem;
+    }
+
+    .delete-body {
+        padding: 25px;
+    }
+
+    .warning-box {
+        display: flex;
+        gap: 12px;
+        padding: 14px 16px;
+        margin-bottom: 23px;
+        background: #fff7e6;
+        border: 1px solid #ffe3a3;
+        border-radius: 12px;
+        color: #664d03;
+        font-size: .82rem;
+    }
+
+        .warning-box i {
+            font-size: 1rem;
+            margin-top: 1px;
+        }
+
+    .vehicle-summary {
+        border: 1px solid #e8edf3;
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 25px;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 14px 16px;
+        border-bottom: 1px solid #edf0f5;
+    }
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+    .summary-label {
+        color: #8992a3;
+        font-size: .78rem;
+        font-weight: 650;
+    }
+
+    .summary-value {
+        color: #172033;
+        font-size: .82rem;
+        font-weight: 700;
+        text-align: right;
+    }
+
+    .delete-actions {
+        display: flex;
+        gap: 9px;
+    }
+
+        .delete-actions .btn {
+            border-radius: 9px;
+            padding: 9px 17px;
+            font-size: .82rem;
+            font-weight: 650;
+        }
+
+    @@media (max-width: 576px) {
+        .delete-body,
+        .delete-header {
+            padding: 20px;
+        }
+
+        .summary-row {
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .summary-value {
+            text-align: left;
+        }
+
+        .delete-actions {
+            flex-direction: column;
+        }
+
+            .delete-actions .btn {
+                width: 100%;
+            }
+    }
+</style>
+
+<div class="container delete-page">
+
+    <div class="delete-card">
+
+        <div class="delete-header">
+
+            <div class="delete-icon">
+                <i class="bi bi-trash3"></i>
+            </div>
+
+            <h1>Delete Vehicle</h1>
+
+            <p>
+                This action cannot be undone. Please confirm that you want to remove this vehicle.
+            </p>
+
+        </div>
+
+        <div class="delete-body">
+
+            <div class="warning-box">
+
+                <i class="bi bi-exclamation-triangle-fill"></i>
+
+                <div>
+                    <strong>Are you sure?</strong>
+                    Deleting this vehicle may also affect its associated fleet and service information.
+                </div>
+
+            </div>
+
+            <div class="vehicle-summary">
+
+                <div class="summary-row">
+
+                    <span class="summary-label">
+                        VIN
+                    </span>
+
+                    <span class="summary-value">
+                        @Model.VIN
+                    </span>
+
+                </div>
+
+                <div class="summary-row">
+
+                    <span class="summary-label">
+                        Vehicle
+                    </span>
+
+                    <span class="summary-value">
+                        @Model.Make @Model.Model
+                    </span>
+
+                </div>
+
+                <div class="summary-row">
+
+                    <span class="summary-label">
+                        License Plate
+                    </span>
+
+                    <span class="summary-value">
+                        @Model.LicensePlate
+                    </span>
+
+                </div>
+
+            </div>
+
+            <form asp-action="Delete"
+                  method="post">
+
+                <input type="hidden"
+                       asp-for="Id" />
+
+                <div class="delete-actions">
+
+                    <button type="submit"
+                            class="btn btn-danger">
+
+                        <i class="bi bi-trash3 me-2"></i>
+                        Delete Vehicle
+
+                    </button>
+
+                    <a asp-action="Index"
+                       class="btn btn-light border">
+
+                        <i class="bi bi-arrow-left me-2"></i>
+                        Cancel
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+```

@@ -1,0 +1,337 @@
+﻿
+
+@model FleetCare_Pro.Models.Domain.ServiceCenter
+
+@{
+    ViewData["Title"] = "Service Center Details";
+}
+
+<style>
+    .details-page {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 25px 0 50px;
+    }
+
+    .details-card {
+        background: #fff;
+        border: 1px solid #e6eaf0;
+        border-radius: 22px;
+        box-shadow: 0 10px 35px rgba(23, 32, 51, .06);
+        overflow: hidden;
+    }
+
+    .details-banner {
+        padding: 30px;
+        background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+        color: white;
+    }
+
+    .center-icon {
+        width: 58px;
+        height: 58px;
+        border-radius: 17px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255,255,255,.16);
+        font-size: 1.5rem;
+        margin-bottom: 18px;
+    }
+
+    .details-banner h1 {
+        font-weight: 750;
+        margin-bottom: 5px;
+    }
+
+    .details-banner p {
+        margin: 0;
+        opacity: .82;
+    }
+
+    .details-body {
+        padding: 30px;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .info-item {
+        padding: 18px;
+        border: 1px solid #e8ebf1;
+        border-radius: 14px;
+        background: #fbfcfe;
+    }
+
+        .info-item.full {
+            grid-column: 1 / -1;
+        }
+
+    .info-label {
+        color: #7a8495;
+        font-size: .78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .05em;
+        margin-bottom: 7px;
+    }
+
+    .info-value {
+        color: #172033;
+        font-weight: 650;
+    }
+
+    .status-active {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 7px 11px;
+        border-radius: 8px;
+        background: #e9f8ef;
+        color: #198754;
+        font-size: .83rem;
+        font-weight: 700;
+    }
+
+    .status-inactive {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 7px 11px;
+        border-radius: 8px;
+        background: #f1f3f6;
+        color: #6c757d;
+        font-size: .83rem;
+        font-weight: 700;
+    }
+
+    .record-count {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #0d6efd;
+    }
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #172033;
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 16px;
+    }
+
+        .section-title i {
+            color: #0d6efd;
+        }
+
+    .empty-box {
+        padding: 22px;
+        border: 1px dashed #d8dee8;
+        border-radius: 14px;
+        background: #fafbfd;
+        color: #7b8494;
+    }
+
+    .action-row {
+        display: flex;
+        gap: 10px;
+        margin-top: 28px;
+        padding-top: 24px;
+        border-top: 1px solid #edf0f5;
+    }
+
+    .btn {
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-weight: 600;
+    }
+
+    .btn-secondary {
+        background: #f1f3f6;
+        color: #4b5563;
+        border: none;
+    }
+
+    @@media (max-width: 700px) {
+        .info-grid
+
+    {
+        grid-template-columns: 1fr;
+    }
+
+    .info-item.full {
+        grid-column: auto;
+    }
+
+    .details-banner,
+    .details-body {
+        padding: 22px;
+    }
+
+    .action-row {
+        flex-direction: column;
+    }
+
+        .action-row .btn {
+            width: 100%;
+        }
+
+    }
+</style>
+
+<div class="container details-page">
+
+    <div class="details-card">
+
+        <div class="details-banner">
+
+            <div class="center-icon">
+                <i class="bi bi-building"></i>
+            </div>
+
+            <h1>@Model.Name</h1>
+
+            <p>Service center information and maintenance activity</p>
+
+        </div>
+
+        <div class="details-body">
+
+            <div class="info-grid">
+
+                <div class="info-item">
+
+                    <div class="info-label">
+                        Name
+                    </div>
+
+                    <div class="info-value">
+                        @Model.Name
+                    </div>
+
+                </div>
+
+                <div class="info-item">
+
+                    <div class="info-label">
+                        Status
+                    </div>
+
+                    <div class="info-value">
+
+                        @if (Model.IsActive)
+                        {
+                            <span class="status-active">
+                                <i class="bi bi-check-circle-fill"></i>
+                                Active
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="status-inactive">
+                                <i class="bi bi-pause-circle-fill"></i>
+                                Inactive
+                            </span>
+                        }
+
+                    </div>
+
+                </div>
+
+                <div class="info-item">
+
+                    <div class="info-label">
+                        Phone
+                    </div>
+
+                    <div class="info-value">
+                        <i class="bi bi-telephone me-2 text-primary"></i>
+                        @Model.PhoneNumber
+                    </div>
+
+                </div>
+
+                <div class="info-item">
+
+                    <div class="info-label">
+                        Email
+                    </div>
+
+                    <div class="info-value">
+                        <i class="bi bi-envelope me-2 text-primary"></i>
+                        @(Model.Email ?? "-")
+                    </div>
+
+                </div>
+
+                <div class="info-item full">
+
+                    <div class="info-label">
+                        Address
+                    </div>
+
+                    <div class="info-value">
+                        <i class="bi bi-geo-alt me-2 text-primary"></i>
+                        @Model.Address
+                    </div>
+
+                </div>
+
+                <div class="info-item full">
+
+                    <div class="info-label">
+                        Service Records
+                    </div>
+
+                    <div class="info-value record-count">
+                        <i class="bi bi-wrench-adjustable"></i>
+                        @Model.ServiceRecords.Count
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div>
+
+                <div class="section-title">
+                    <i class="bi bi-tags"></i>
+                    Available Service Categories
+                </div>
+
+                <div class="empty-box">
+                    <i class="bi bi-info-circle me-2"></i>
+                    Service categories available at this center can be displayed here.
+                </div>
+
+            </div>
+
+            <div class="action-row">
+
+                <a asp-action="Edit"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-warning">
+                    <i class="bi bi-pencil-square me-2"></i>
+                    Edit
+                </a>
+
+                <a asp-action="Index"
+                   class="btn btn-secondary">
+                    <i class="bi bi-arrow-left me-2"></i>
+                    Back to Service Centers
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+

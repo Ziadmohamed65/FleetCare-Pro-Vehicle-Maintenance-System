@@ -1,0 +1,116 @@
+﻿@{
+    ViewData["Title"] = "Error";
+}
+
+<style>
+    .error-page {
+        min-height: calc(100vh - 70px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        background: radial-gradient(circle at 15% 20%, rgba(13, 110, 253, .07), transparent 30%), radial-gradient(circle at 85% 80%, rgba(220, 53, 69, .05), transparent 30%), #f6f8fc;
+    }
+
+    .error-card {
+        width: 100%;
+        max-width: 620px;
+        background: white;
+        border: 1px solid #e7ebf1;
+        border-radius: 24px;
+        padding: 55px 40px;
+        text-align: center;
+        box-shadow: 0 15px 50px rgba(25, 42, 70, .07);
+    }
+
+    .error-icon {
+        width: 75px;
+        height: 75px;
+        margin: 0 auto 23px;
+        border-radius: 21px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff4df;
+        color: #e59a00;
+        font-size: 31px;
+    }
+
+    .error-title {
+        color: #172033;
+        font-size: 28px;
+        font-weight: 750;
+        margin-bottom: 10px;
+    }
+
+    .error-description {
+        max-width: 440px;
+        margin: 0 auto 28px;
+        color: #7b8495;
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    .home-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 11px 21px;
+        border-radius: 10px;
+        background: #0d6efd;
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        box-shadow: 0 8px 20px rgba(13, 110, 253, .20);
+        transition: all .2s ease;
+    }
+
+        .home-btn:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(13, 110, 253, .28);
+        }
+
+    @@media (max-width: 576px) {
+        .error-card {
+            padding: 42px 25px;
+        }
+
+        .error-title {
+            font-size: 24px;
+        }
+    }
+</style>
+
+<div class="error-page">
+
+    
+    <div class="error-card">
+
+        <div class="error-icon">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+        </div>
+
+        <h1 class="error-title">
+            Something went wrong
+        </h1>
+
+        <p class="error-description">
+            An unexpected error occurred while processing your request.
+            Please try again or return to the FleetCare Pro home page.
+        </p>
+
+        <a asp-controller="Home"
+           asp-action="Index"
+           class="home-btn">
+
+            <i class="bi bi-house-fill"></i>
+            Return Home
+
+        </a>
+
+    </div>
+    
+
+</div>

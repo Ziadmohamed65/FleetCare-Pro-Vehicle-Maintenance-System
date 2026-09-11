@@ -1,0 +1,488 @@
+﻿
+@model FleetCare_Pro.Models.ViewModels.Vehicle.VehicleCreateViewModel
+@using FleetCare_Pro.Models.Enums
+@using FleetCare_Pro.Models.Identity
+
+@{
+    ViewData["Title"] = "Add Vehicle";
+
+    var drivers =
+        ViewBag.Drivers as IList<ApplicationUser>
+        ?? new List<ApplicationUser>();
+}
+
+<style>
+    .vehicle-form-page {
+        padding: 20px 0 50px;
+    }
+
+    .vehicle-form-header {
+        margin-bottom: 25px;
+    }
+
+    .eyebrow {
+        color: #0d6efd;
+        font-size: .76rem;
+        font-weight: 750;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        margin-bottom: 6px;
+    }
+
+    .vehicle-form-header h1 {
+        color: #172033;
+        font-size: 1.9rem;
+        font-weight: 750;
+        margin: 0 0 6px;
+    }
+
+    .vehicle-form-header p {
+        color: #8992a3;
+        margin: 0;
+    }
+
+    .form-card {
+        background: #fff;
+        border: 1px solid #e5eaf1;
+        border-radius: 20px;
+        box-shadow: 0 10px 35px rgba(23, 32, 51, .06);
+        overflow: hidden;
+    }
+
+    .form-card-header {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        padding: 20px 24px;
+        border-bottom: 1px solid #edf0f5;
+    }
+
+    .form-card-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background: #eaf3ff;
+        color: #0d6efd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.05rem;
+    }
+
+    .form-card-header h5 {
+        margin: 0;
+        color: #172033;
+        font-weight: 700;
+    }
+
+    .form-card-header span {
+        color: #8992a3;
+        font-size: .78rem;
+    }
+
+    .form-card-body {
+        padding: 25px;
+    }
+
+    .form-label {
+        color: #344054;
+        font-size: .82rem;
+        font-weight: 650;
+        margin-bottom: 7px;
+    }
+
+    .form-control,
+    .form-select {
+        min-height: 44px;
+        border-color: #dfe4ec;
+        border-radius: 10px;
+        color: #172033;
+        font-size: .87rem;
+        box-shadow: none;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #86b7fe;
+        box-shadow: 0 0 0 3px rgba(13, 110, 253, .08);
+    }
+
+    input[type="file"].form-control {
+        padding: 9px 12px;
+    }
+
+    .text-danger {
+        font-size: .75rem;
+        margin-top: 5px;
+        display: block;
+    }
+
+    .validation-summary {
+        border-radius: 11px;
+        border: none;
+        background: #fff1f1;
+        padding: 12px 15px;
+    }
+
+    .form-section {
+        margin-bottom: 25px;
+    }
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #172033;
+        font-size: .9rem;
+        font-weight: 750;
+        margin-bottom: 17px;
+    }
+
+    .section-title i {
+        color: #0d6efd;
+    }
+
+    .upload-box {
+        padding: 18px;
+        border: 1px dashed #cbd5e1;
+        border-radius: 13px;
+        background: #fafcff;
+    }
+
+    .upload-hint {
+        display: block;
+        color: #8992a3;
+        font-size: .74rem;
+        margin-top: 7px;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 9px;
+        padding-top: 20px;
+        border-top: 1px solid #edf0f5;
+    }
+
+    .form-actions .btn {
+        border-radius: 9px;
+        padding: 9px 17px;
+        font-size: .82rem;
+        font-weight: 650;
+    }
+
+    @@media (max-width: 576px) {
+        .vehicle-form-page {
+            padding-top: 10px;
+        }
+
+        .form-card-body {
+            padding: 18px;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .form-actions .btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container vehicle-form-page">
+
+    <div class="vehicle-form-header">
+        <div class="eyebrow">Fleet Management</div>
+
+        <h1>Add Vehicle</h1>
+
+        <p>
+            Register a new vehicle and assign it to a driver.
+        </p>
+    </div>
+
+    <div class="form-card">
+
+        <div class="form-card-header">
+
+            <div class="form-card-icon">
+                <i class="bi bi-car-front-fill"></i>
+            </div>
+
+            <div>
+                <h5>Vehicle Information</h5>
+                <span>Enter the vehicle's registration and operational details.</span>
+            </div>
+
+        </div>
+
+        <div class="form-card-body">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger validation-summary mb-4">
+            </div>
+
+            <form asp-action="Create"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                <div class="form-section">
+
+                    <div class="section-title">
+                        <i class="bi bi-card-text"></i>
+                        Identification
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <label asp-for="VIN"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="VIN"
+                                   class="form-control"
+                                   placeholder="17-character VIN" />
+
+                            <span asp-validation-for="VIN"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label asp-for="LicensePlate"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="LicensePlate"
+                                   class="form-control"
+                                   placeholder="Enter license plate" />
+
+                            <span asp-validation-for="LicensePlate"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="form-section">
+
+                    <div class="section-title">
+                        <i class="bi bi-car-front"></i>
+                        Vehicle Details
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <label asp-for="Make"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="Make"
+                                   class="form-control"
+                                   placeholder="e.g. Toyota" />
+
+                            <span asp-validation-for="Make"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label asp-for="Model"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="Model"
+                                   class="form-control"
+                                   placeholder="e.g. Corolla" />
+
+                            <span asp-validation-for="Model"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label asp-for="Year"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="Year"
+                                   class="form-control"
+                                   type="number" />
+
+                            <span asp-validation-for="Year"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label asp-for="PurchasePrice"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="PurchasePrice"
+                                   class="form-control"
+                                   type="number"
+                                   step="0.01" />
+
+                            <span asp-validation-for="PurchasePrice"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label asp-for="Mileage"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="Mileage"
+                                   class="form-control"
+                                   type="number" />
+
+                            <span asp-validation-for="Mileage"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="form-section">
+
+                    <div class="section-title">
+                        <i class="bi bi-activity"></i>
+                        Assignment & Status
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <label asp-for="Status"
+                                   class="form-label">
+                            </label>
+
+                            <select asp-for="Status"
+                                    asp-items="Html.GetEnumSelectList<VehicleStatus>()"
+                                    class="form-select">
+                            </select>
+
+                            <span asp-validation-for="Status"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label asp-for="DriverId"
+                                   class="form-label">
+                                Assigned Driver
+                            </label>
+
+                            <select asp-for="DriverId"
+                                    class="form-select">
+
+                                <option value="">
+                                    -- No Driver --
+                                </option>
+
+                                @foreach (var driver in drivers)
+                                {
+                                    <option value="@driver.Id">
+                                        @driver.FullName
+                                    </option>
+                                }
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="form-section mb-0">
+
+                    <div class="section-title">
+                        <i class="bi bi-image"></i>
+                        Vehicle Image
+                    </div>
+
+                    <div class="upload-box">
+
+                        <label asp-for="VehicleImage"
+                               class="form-label">
+                            Upload Vehicle Image
+                        </label>
+
+                        <input asp-for="VehicleImage"
+                               class="form-control"
+                               type="file"
+                               accept=".jpg,.jpeg,.png" />
+
+                        <span asp-validation-for="VehicleImage"
+                              class="text-danger">
+                        </span>
+
+                        <small class="upload-hint">
+                            Supported formats: JPG, JPEG, PNG.
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+
+                    <button type="submit"
+                            class="btn btn-primary">
+
+                        <i class="bi bi-plus-lg me-2"></i>
+                        Create Vehicle
+
+                    </button>
+
+                    <a asp-action="Index"
+                       class="btn btn-light border">
+
+                        <i class="bi bi-arrow-left me-2"></i>
+                        Cancel
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial");
+    }
+}

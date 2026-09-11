@@ -1,0 +1,286 @@
+﻿@model FleetCare_Pro.Models.Domain.Vehicle
+
+@{
+    ViewData["Title"] = "Vehicle Details";
+}
+
+<style>
+    .vehicle-page {
+        background: #f6f8fc;
+        min-height: calc(100vh - 70px);
+        padding: 35px 0 60px;
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 28px;
+    }
+
+    .page-title {
+        font-size: 30px;
+        font-weight: 750;
+        color: #172033;
+        margin: 0 0 5px;
+    }
+
+    .page-subtitle {
+        color: #7b8495;
+        margin: 0;
+        font-size: 14px;
+    }
+
+    .back-btn {
+        border-radius: 10px;
+        padding: 9px 17px;
+        font-weight: 600;
+        background: white;
+        border: 1px solid #dfe3ea;
+        color: #475467;
+        text-decoration: none;
+        transition: all .2s ease;
+    }
+
+        .back-btn:hover {
+            background: #f8f9fb;
+            color: #172033;
+            transform: translateY(-1px);
+        }
+
+    .vehicle-card {
+        background: white;
+        border: 1px solid #e7ebf1;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(25, 42, 70, .06);
+    }
+
+    .vehicle-banner {
+        background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+        padding: 28px 32px;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+    }
+
+    .vehicle-icon {
+        width: 58px;
+        height: 58px;
+        border-radius: 16px;
+        background: rgba(255,255,255,.16);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+    }
+
+    .vehicle-name {
+        font-size: 23px;
+        font-weight: 700;
+        margin: 0 0 4px;
+    }
+
+    .vehicle-plate {
+        opacity: .85;
+        font-size: 13px;
+        margin: 0;
+    }
+
+    .vehicle-body {
+        padding: 32px;
+    }
+
+    .info-item {
+        padding: 19px 20px;
+        border: 1px solid #edf0f4;
+        border-radius: 13px;
+        height: 100%;
+        background: #fafbfc;
+        transition: all .2s ease;
+    }
+
+        .info-item:hover {
+            background: white;
+            border-color: #dce3ed;
+            box-shadow: 0 5px 18px rgba(25,42,70,.05);
+        }
+
+    .info-label {
+        display: block;
+        color: #8a93a3;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+        margin-bottom: 7px;
+    }
+
+    .info-value {
+        color: #202939;
+        font-size: 16px;
+        font-weight: 650;
+        word-break: break-word;
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 11px;
+        border-radius: 8px;
+        background: #eaf2ff;
+        color: #0d6efd;
+        font-size: 12px;
+        font-weight: 650;
+    }
+
+    @@media (max-width: 576px) {
+        .vehicle-page {
+            padding: 25px 15px 40px;
+        }
+
+        .page-header {
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .page-title {
+            font-size: 25px;
+        }
+
+        .vehicle-banner {
+            padding: 23px;
+        }
+
+        .vehicle-body {
+            padding: 20px;
+        }
+    }
+</style>
+
+<div class="vehicle-page">
+
+    
+    <div class="container">
+
+        <div class="page-header">
+
+            <div>
+                <h1 class="page-title">
+                    Vehicle Details
+                </h1>
+
+                <p class="page-subtitle">
+                    Complete information about this vehicle.
+                </p>
+            </div>
+
+            <a asp-action="Index" class="back-btn">
+                <i class="bi bi-arrow-left me-2"></i>
+                Back
+            </a>
+
+        </div>
+
+        <div class="vehicle-card">
+
+            <div class="vehicle-banner">
+
+                <div class="vehicle-icon">
+                    <i class="bi bi-truck-front-fill"></i>
+                </div>
+
+                <div>
+                    <h2 class="vehicle-name">
+                        @Model.Make @Model.Model
+                    </h2>
+
+                    <p class="vehicle-plate">
+                        <i class="bi bi-credit-card-2-front me-1"></i>
+                        @Model.LicensePlate
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="vehicle-body">
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">VIN</span>
+                            <div class="info-value">
+                                @Model.VIN
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">License Plate</span>
+                            <div class="info-value">
+                                @Model.LicensePlate
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">Make</span>
+                            <div class="info-value">
+                                @Model.Make
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">Model</span>
+                            <div class="info-value">
+                                @Model.Model
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">Year</span>
+                            <div class="info-value">
+                                @Model.Year
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">Mileage</span>
+                            <div class="info-value">
+                                @Model.Mileage km
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">Status</span>
+                            <div class="info-value">
+                                <span class="status-badge">
+                                    <i class="bi bi-circle-fill me-2" style="font-size:7px;"></i>
+                                    @Model.Status
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    
+
+</div>

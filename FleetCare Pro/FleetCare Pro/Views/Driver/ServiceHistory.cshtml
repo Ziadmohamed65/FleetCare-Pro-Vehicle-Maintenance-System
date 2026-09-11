@@ -1,0 +1,506 @@
+﻿
+@model IEnumerable<FleetCare_Pro.Models.Domain.ServiceRecord>
+
+@{
+    ViewData["Title"] = "Service History";
+
+    var records = Model?.ToList()
+        ?? new List<FleetCare_Pro.Models.Domain.ServiceRecord>();
+
+    var vehicle = ViewBag.Vehicle
+        as FleetCare_Pro.Models.Domain.Vehicle;
+}
+
+<style>
+    .history-page {
+        background: #f6f8fc;
+        min-height: calc(100vh - 70px);
+        padding: 35px 0 60px;
+    }
+
+    .page-header {
+        margin-bottom: 25px;
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: #667085;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 18px;
+    }
+
+        .back-link:hover {
+            color: #0d6efd;
+        }
+
+    .page-title {
+        font-size: 30px;
+        font-weight: 750;
+        color: #172033;
+        margin: 0 0 6px;
+    }
+
+    .page-subtitle {
+        color: #7b8495;
+        font-size: 14px;
+        margin: 0;
+    }
+
+    .vehicle-card {
+        background: white;
+        border: 1px solid #e5e9ef;
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 25px;
+        box-shadow: 0 8px 30px rgba(25, 42, 70, .05);
+    }
+
+    .vehicle-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .vehicle-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        background: #eaf2ff;
+        color: #0d6efd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 23px;
+        flex-shrink: 0;
+    }
+
+    .vehicle-name {
+        color: #172033;
+        font-size: 18px;
+        font-weight: 700;
+        margin: 0 0 4px;
+    }
+
+    .vehicle-details {
+        color: #7b8495;
+        font-size: 13px;
+        margin: 0;
+    }
+
+    .history-count {
+        margin-left: auto;
+        padding: 8px 12px;
+        border-radius: 9px;
+        background: #f6f8fc;
+        border: 1px solid #e5e9ef;
+        color: #667085;
+        font-size: 13px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+        .history-count i {
+            color: #0d6efd;
+        }
+
+    .history-card {
+        background: white;
+        border: 1px solid #e5e9ef;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(25, 42, 70, .05);
+    }
+
+    .history-card-header {
+        padding: 18px 22px;
+        border-bottom: 1px solid #edf0f4;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .history-card-title {
+        color: #172033;
+        font-size: 16px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    .history-table {
+        width: 100%;
+        margin: 0;
+        border-collapse: collapse;
+    }
+
+        .history-table thead th {
+            background: #f8fafc;
+            color: #667085;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .35px;
+            padding: 14px 18px;
+            border-bottom: 1px solid #e5e9ef;
+            white-space: nowrap;
+        }
+
+        .history-table tbody td {
+            padding: 17px 18px;
+            color: #344054;
+            font-size: 14px;
+            border-bottom: 1px solid #edf0f4;
+            vertical-align: middle;
+        }
+
+        .history-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .history-table tbody tr:hover {
+            background: #fbfcfe;
+        }
+
+    .date-value {
+        color: #172033;
+        font-weight: 650;
+    }
+
+    .mileage-value {
+        color: #667085;
+        white-space: nowrap;
+    }
+
+    .center-name {
+        color: #344054;
+        font-weight: 600;
+    }
+
+    .cost-value {
+        color: #172033;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 5px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .status-pending {
+        background: #fff4e5;
+        color: #b54708;
+    }
+
+    .status-completed {
+        background: #ecfdf3;
+        color: #027a48;
+    }
+
+    .status-cancelled {
+        background: #fef3f2;
+        color: #b42318;
+    }
+
+    .status-default {
+        background: #f2f4f7;
+        color: #475467;
+    }
+
+    .view-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 7px 11px;
+        border: 1px solid #d0d5dd;
+        border-radius: 8px;
+        color: #344054;
+        background: white;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+        .view-btn:hover {
+            background: #f8fafc;
+            color: #0d6efd;
+            border-color: #b7cdfb;
+        }
+
+    .empty-state {
+        background: white;
+        border: 1px solid #e5e9ef;
+        border-radius: 18px;
+        padding: 65px 25px;
+        text-align: center;
+        box-shadow: 0 8px 30px rgba(25, 42, 70, .05);
+    }
+
+    .empty-icon {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 18px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #eaf2ff;
+        color: #0d6efd;
+        font-size: 29px;
+    }
+
+    .empty-title {
+        color: #202939;
+        font-weight: 700;
+        margin-bottom: 7px;
+    }
+
+    .empty-text {
+        color: #8a93a3;
+        font-size: 14px;
+        margin: 0;
+    }
+
+    @@media (max-width: 768px) {
+        .history-page {
+            padding: 25px 15px 45px;
+        }
+
+        .page-title {
+            font-size: 25px;
+        }
+
+        .vehicle-info {
+            align-items: flex-start;
+        }
+
+        .history-count {
+            display: none;
+        }
+
+        .history-table {
+            min-width: 850px;
+        }
+    }
+</style>
+
+<div class="history-page">
+
+    <div class="container">
+
+        <div class="page-header">
+
+            <a asp-controller="Driver"
+               asp-action="Index"
+               class="back-link">
+                <i class="bi bi-arrow-left"></i>
+                Back to My Vehicles
+            </a>
+
+            <h1 class="page-title">
+                Service History
+            </h1>
+
+            <p class="page-subtitle">
+                Complete maintenance and service history for your vehicle.
+            </p>
+
+        </div>
+
+
+        @if (vehicle != null)
+        {
+            <div class="vehicle-card">
+
+                <div class="vehicle-info">
+
+                    <div class="vehicle-icon">
+                        <i class="bi bi-truck"></i>
+                    </div>
+
+                    <div>
+                        <h3 class="vehicle-name">
+                            @vehicle.Make @vehicle.Model
+                        </h3>
+
+                        <p class="vehicle-details">
+                            @vehicle.LicensePlate
+
+                            @if (!string.IsNullOrWhiteSpace(vehicle.VIN))
+                            {
+                                <span> · VIN: @vehicle.VIN</span>
+                            }
+
+                            @if (vehicle.Year > 0)
+                            {
+                                <span> · @vehicle.Year</span>
+                            }
+                        </p>
+                    </div>
+
+                    <div class="history-count">
+                        <i class="bi bi-clock-history me-1"></i>
+                        @records.Count Record@(records.Count == 1 ? "" : "s")
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+
+        @if (!records.Any())
+        {
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    <i class="bi bi-clock-history"></i>
+                </div>
+
+                <h4 class="empty-title">
+                    No Service History
+                </h4>
+
+                <p class="empty-text">
+                    No maintenance or service records have been recorded for this vehicle yet.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="history-card">
+
+                <div class="history-card-header">
+
+                    <h3 class="history-card-title">
+                        <i class="bi bi-wrench-adjustable-circle me-2"></i>
+                        Maintenance Records
+                    </h3>
+
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table class="history-table">
+
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Mileage</th>
+                                <th>Service Center</th>
+                                <th>Services</th>
+                                <th>Total Cost</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var record in records)
+                            {
+                                <tr>
+
+                                    <td>
+                                        <div class="date-value">
+                                            @record.ServiceDate.ToString("dd MMM yyyy")
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="mileage-value">
+                                            @record.CurrentMileage.ToString("N0") km
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="center-name">
+                                            @(record.ServiceCenter?.Name ?? "Unknown")
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        @if (record.ServiceLineItems != null &&
+                                                                        record.ServiceLineItems.Any())
+                                        {
+                                            <div>
+                                                @foreach (var item in record.ServiceLineItems)
+                                                {
+                                                    <div class="mb-1">
+                                                        <i class="bi bi-check2 me-1 text-primary"></i>
+                                                        @(item.ServiceCategory?.CategoryName ?? "Service")
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">
+                                                No service items
+                                            </span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        <div class="cost-value">
+                                            @record.TotalCost.ToString("C")
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        @{
+                                            var statusClass = record.Status.ToString()
+                                            .ToLowerInvariant() switch
+                                            {
+                                                "pending" => "status-pending",
+                                                "completed" => "status-completed",
+                                                "cancelled" => "status-cancelled",
+                                                _ => "status-default"
+                                            };
+                                        }
+
+                                        <span class="status-badge @statusClass">
+                                            @record.Status
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <a asp-controller="ServiceRecord"
+                                           asp-action="Details"
+                                           asp-route-id="@record.Id"
+                                           class="view-btn">
+                                            <i class="bi bi-eye"></i>
+                                            View
+                                        </a>
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+</div>
+

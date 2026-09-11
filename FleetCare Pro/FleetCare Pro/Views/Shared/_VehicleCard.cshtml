@@ -1,0 +1,238 @@
+﻿
+@model FleetCare_Pro.Models.Domain.Vehicle
+
+<div class="col-md-6 col-lg-4 mb-4">
+
+    <style>
+        .vehicle-card {
+            height: 100%;
+            background: #fff;
+            border: 1px solid #e5eaf1;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 8px 28px rgba(23, 32, 51, .06);
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+            .vehicle-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 14px 35px rgba(23, 32, 51, .10);
+            }
+
+        .vehicle-image-wrapper {
+            position: relative;
+            height: 200px;
+            background: linear-gradient(135deg, #eef4fb, #f8faff);
+            overflow: hidden;
+        }
+
+        .vehicle-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .3s ease;
+        }
+
+        .vehicle-card:hover .vehicle-image {
+            transform: scale(1.03);
+        }
+
+        .vehicle-image-placeholder {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #a0a9b8;
+            font-size: 2.5rem;
+        }
+
+        .vehicle-status {
+            position: absolute;
+            top: 13px;
+            right: 13px;
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, .94);
+            color: #172033;
+            font-size: .72rem;
+            font-weight: 700;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, .08);
+        }
+
+        .vehicle-card-body {
+            padding: 20px;
+        }
+
+        .vehicle-title {
+            color: #172033;
+            font-size: 1.05rem;
+            font-weight: 750;
+            margin-bottom: 17px;
+        }
+
+        .vehicle-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 19px;
+        }
+
+        .vehicle-info-item {
+            padding: 11px 12px;
+            background: #f8faff;
+            border: 1px solid #edf1f6;
+            border-radius: 10px;
+        }
+
+        .vehicle-info-label {
+            display: block;
+            color: #8992a3;
+            font-size: .68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            margin-bottom: 3px;
+        }
+
+        .vehicle-info-value {
+            color: #253047;
+            font-size: .82rem;
+            font-weight: 650;
+        }
+
+        .vehicle-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+            .vehicle-actions .btn {
+                flex: 1;
+                border-radius: 9px;
+                padding: 8px 10px;
+                font-size: .76rem;
+                font-weight: 650;
+            }
+
+        @@media (max-width: 576px) {
+            .vehicle-info {
+                grid-template-columns: 1fr;
+            }
+
+            .vehicle-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+
+    <div class="vehicle-card">
+
+        @if (!string.IsNullOrEmpty(Model.VehicleImageURL))
+        {
+            <div class="vehicle-image-wrapper">
+
+                <img src="@Model.VehicleImageURL"
+                     class="vehicle-image"
+                     alt="@Model.Make @Model.Model" />
+
+                <span class="vehicle-status">
+                    @Model.Status
+                </span>
+
+            </div>
+        }
+        else
+        {
+            <div class="vehicle-image-wrapper">
+
+                <div class="vehicle-image-placeholder">
+                    <i class="bi bi-car-front-fill"></i>
+                </div>
+
+                <span class="vehicle-status">
+                    @Model.Status
+                </span>
+
+            </div>
+        }
+
+        <div class="vehicle-card-body">
+
+            <h5 class="vehicle-title">
+                @Model.Make @Model.Model
+            </h5>
+
+            <div class="vehicle-info">
+
+                <div class="vehicle-info-item">
+                    <span class="vehicle-info-label">
+                        License Plate
+                    </span>
+
+                    <span class="vehicle-info-value">
+                        @Model.LicensePlate
+                    </span>
+                </div>
+
+                <div class="vehicle-info-item">
+                    <span class="vehicle-info-label">
+                        Year
+                    </span>
+
+                    <span class="vehicle-info-value">
+                        @Model.Year
+                    </span>
+                </div>
+
+                <div class="vehicle-info-item">
+                    <span class="vehicle-info-label">
+                        Mileage
+                    </span>
+
+                    <span class="vehicle-info-value">
+                        @Model.Mileage km
+                    </span>
+                </div>
+
+                <div class="vehicle-info-item">
+                    <span class="vehicle-info-label">
+                        Status
+                    </span>
+
+                    <span class="vehicle-info-value">
+                        @Model.Status
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="vehicle-actions">
+
+                <!-- DriverController.Vehicle(int id) -->
+                <a asp-controller="Driver"
+                   asp-action="Vehicle"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-primary">
+
+                    <i class="bi bi-eye me-1"></i>
+                    View Vehicle
+
+                </a>
+
+                <!-- DriverController.ServiceHistory(int id) -->
+                <a asp-controller="Driver"
+                   asp-action="ServiceHistory"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-outline-secondary">
+
+                    <i class="bi bi-clock-history me-1"></i>
+                    Service History
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

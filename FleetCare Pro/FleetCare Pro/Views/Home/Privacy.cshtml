@@ -1,0 +1,90 @@
+﻿
+
+@{
+    ViewData["Title"] = "Privacy Policy";
+}
+
+<style>
+    .info-page {
+        background: #f6f8fc;
+        min-height: calc(100vh - 70px);
+        padding: 45px 0 70px;
+    }
+
+    .info-card {
+        max-width: 900px;
+        margin: 0 auto;
+        background: white;
+        border: 1px solid #e7ebf1;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 10px 35px rgba(25,42,70,.055);
+    }
+
+    .info-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #eaf2ff;
+        color: #0d6efd;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .info-title {
+        color: #172033;
+        font-size: 30px;
+        font-weight: 750;
+        margin-bottom: 10px;
+    }
+
+    .info-description {
+        color: #7b8495;
+        font-size: 15px;
+        line-height: 1.8;
+        margin: 0;
+    }
+
+    @@media (max-width: 576px) {
+        .info-page {
+            padding: 30px 15px 50px;
+        }
+
+        .info-card {
+            padding: 28px 22px;
+        }
+
+        .info-title {
+            font-size: 25px;
+        }
+    }
+</style>
+
+<div class="info-page">
+
+     
+    <div class="container">
+
+        <div class="info-card">
+
+            <div class="info-icon">
+                <i class="bi bi-shield-check"></i>
+            </div>
+
+            <h1 class="info-title">
+                @ViewData["Title"]
+            </h1>
+
+            <p class="info-description">
+				Idk man i Just wanna finish my assignment and go home.
+            </p>
+
+        </div>
+
+    </div>
+     
+
+</div>

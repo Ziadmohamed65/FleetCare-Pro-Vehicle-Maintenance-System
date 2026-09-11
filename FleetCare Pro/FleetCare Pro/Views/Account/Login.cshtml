@@ -1,0 +1,272 @@
+﻿@model FleetCare_Pro.Models.ViewModels.Account.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<style>
+    .auth-page {
+        min-height: calc(100vh - 80px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 50px 20px;
+        background: radial-gradient(circle at 10% 20%, rgba(13, 110, 253, 0.08), transparent 30%), radial-gradient(circle at 90% 80%, rgba(25, 135, 84, 0.07), transparent 30%), #f5f7fb;
+    }
+
+    .auth-wrapper {
+        width: 100%;
+        max-width: 450px;
+    }
+
+    .auth-card {
+        background: rgba(255, 255, 255, 0.96);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        border-radius: 24px;
+        padding: 42px;
+        box-shadow: 0 20px 60px rgba(25, 42, 70, 0.10);
+    }
+
+    .auth-icon {
+        width: 62px;
+        height: 62px;
+        margin: 0 auto 20px;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+        color: white;
+        font-size: 27px;
+        box-shadow: 0 10px 25px rgba(13, 110, 253, 0.25);
+    }
+
+    .auth-title {
+        font-size: 30px;
+        font-weight: 700;
+        color: #172033;
+        text-align: center;
+        margin-bottom: 7px;
+    }
+
+    .auth-subtitle {
+        color: #7b8495;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 14px;
+    }
+
+    .field-group {
+        margin-bottom: 21px;
+    }
+
+        .field-group label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+    .auth-input {
+        min-height: 49px;
+        border-radius: 11px;
+        border: 1px solid #dfe3ea;
+        background: #fafbfc;
+        padding: 10px 14px;
+        transition: all 0.2s ease;
+    }
+
+        .auth-input:focus {
+            background: #fff;
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.10);
+        }
+
+        .auth-input::placeholder {
+            color: #adb5bd;
+        }
+
+    .validation-message {
+        display: block;
+        margin-top: 6px;
+        font-size: 12px;
+    }
+
+    .remember-row {
+        display: flex;
+        align-items: center;
+        margin: 3px 0 23px;
+    }
+
+        .remember-row .form-check-input {
+            width: 17px;
+            height: 17px;
+            margin-top: 0;
+            cursor: pointer;
+        }
+
+        .remember-row .form-check-label {
+            margin-left: 7px;
+            font-size: 13px;
+            color: #697386;
+            cursor: pointer;
+        }
+
+    .login-btn {
+        width: 100%;
+        min-height: 50px;
+        border: none;
+        border-radius: 11px;
+        font-weight: 600;
+        font-size: 15px;
+        background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+        box-shadow: 0 8px 20px rgba(13, 110, 253, 0.20);
+        transition: all 0.2s ease;
+    }
+
+        .login-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 25px rgba(13, 110, 253, 0.28);
+        }
+
+    .auth-footer {
+        text-align: center;
+        margin-top: 25px;
+        padding-top: 22px;
+        border-top: 1px solid #edf0f4;
+        color: #7b8495;
+        font-size: 14px;
+    }
+
+        .auth-footer a {
+            color: #0d6efd;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+            .auth-footer a:hover {
+                text-decoration: underline;
+            }
+
+    .validation-summary {
+        border-radius: 10px;
+        padding: 12px 15px;
+        background: #fff5f5;
+        border: 1px solid #ffd7d7;
+        font-size: 13px;
+    }
+
+    @@media (max-width: 576px) {
+        .auth-page {
+            padding: 25px 15px;
+        }
+
+        .auth-card {
+            padding: 28px 22px;
+            border-radius: 20px;
+        }
+
+        .auth-title {
+            font-size: 26px;
+        }
+    }
+</style>
+
+<div class="auth-page">
+
+    
+    <div class="auth-wrapper">
+
+        <div class="auth-card">
+
+            <div class="auth-icon">
+                <i class="bi bi-shield-lock-fill"></i>
+            </div>
+
+            <h1 class="auth-title">Welcome Back</h1>
+
+            <p class="auth-subtitle">
+                Sign in to continue to FleetCare Pro
+            </p>
+
+            <form asp-action="Login" method="post">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger validation-summary mb-4">
+                </div>
+
+                <input type="hidden"
+                       name="returnUrl"
+                       value="@ViewBag.ReturnUrl" />
+
+                <div class="field-group">
+
+                    <label asp-for="Email" class="form-label">
+                        Email Address
+                    </label>
+
+                    <input asp-for="Email"
+                           class="form-control auth-input"
+                           placeholder="name@example.com" />
+
+                    <span asp-validation-for="Email"
+                          class="text-danger validation-message">
+                    </span>
+
+                </div>
+
+                <div class="field-group">
+
+                    <label asp-for="Password" class="form-label">
+                        Password
+                    </label>
+
+                    <input asp-for="Password"
+                           class="form-control auth-input"
+                           placeholder="Enter your password" />
+
+                    <span asp-validation-for="Password"
+                          class="text-danger validation-message">
+                    </span>
+
+                </div>
+
+                <div class="remember-row form-check">
+
+                    <input asp-for="RememberMe"
+                           class="form-check-input" />
+
+                    <label asp-for="RememberMe"
+                           class="form-check-label">
+                    </label>
+
+                </div>
+
+                <button type="submit"
+                        class="btn btn-primary login-btn">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>
+                    Sign In
+                </button>
+
+            </form>
+
+            <div class="auth-footer">
+
+                Don't have an account?
+
+                <a asp-action="Register">
+                    Create one
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+    
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,282 @@
+﻿@model FleetCare_Pro.Models.ViewModels.ServiceCategory.ServiceCategoryCreateViewModel
+
+@{
+    ViewData["Title"] = "Add Service Category";
+}
+
+<style>
+    .category-page {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 0 50px;
+    }
+
+    .page-header {
+        margin-bottom: 28px;
+    }
+
+        .page-header .eyebrow {
+            color: #0d6efd;
+            font-size: .78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            margin-bottom: 6px;
+        }
+
+        .page-header h1 {
+            color: #172033;
+            font-weight: 750;
+            margin-bottom: 6px;
+        }
+
+        .page-header p {
+            color: #6b7280;
+            margin: 0;
+        }
+
+    .form-card {
+        background: #fff;
+        border: 1px solid #e7ebf2;
+        border-radius: 20px;
+        box-shadow: 0 10px 35px rgba(23, 32, 51, .06);
+        overflow: hidden;
+    }
+
+    .form-card-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 24px 28px;
+        border-bottom: 1px solid #edf0f5;
+        background: linear-gradient(135deg, #f8fbff, #fff);
+    }
+
+    .header-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #e9f2ff;
+        color: #0d6efd;
+        font-size: 1.35rem;
+    }
+
+    .form-card-header h5 {
+        margin: 0;
+        color: #172033;
+        font-weight: 700;
+    }
+
+    .form-card-header span {
+        color: #7b8494;
+        font-size: .88rem;
+    }
+
+    .form-body {
+        padding: 30px;
+    }
+
+    .form-label {
+        font-weight: 650;
+        color: #273247;
+        margin-bottom: 8px;
+    }
+
+    .form-control {
+        border: 1px solid #dfe4ec;
+        border-radius: 11px;
+        padding: 11px 14px;
+        transition: all .2s ease;
+    }
+
+        .form-control:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 .2rem rgba(13, 110, 253, .1);
+        }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    .field-hint {
+        color: #8992a3;
+        font-size: .78rem;
+        margin-top: 6px;
+    }
+
+    .action-row {
+        display: flex;
+        gap: 10px;
+        margin-top: 28px;
+        padding-top: 24px;
+        border-top: 1px solid #edf0f5;
+    }
+
+    .btn {
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-weight: 600;
+    }
+
+    .btn-primary {
+        box-shadow: 0 5px 14px rgba(13, 110, 253, .18);
+    }
+
+    .btn-secondary {
+        background: #f1f3f6;
+        color: #4b5563;
+        border: none;
+    }
+
+        .btn-secondary:hover {
+            background: #e4e7ec;
+            color: #273247;
+        }
+
+    @@media (max-width: 576px) {
+        .category-page
+
+    {
+        padding: 10px 0 30px;
+    }
+
+    .form-body {
+        padding: 22px;
+    }
+
+    .form-card-header {
+        padding: 20px 22px;
+    }
+
+    .action-row {
+        flex-direction: column;
+    }
+
+        .action-row .btn {
+            width: 100%;
+        }
+
+    }
+</style>
+
+<div class="container category-page">
+
+    <div class="page-header">
+        <div class="eyebrow">Service Management</div>
+        <h1>Add Service Category</h1>
+        <p>Create a maintenance category that can be used across FleetCare Pro.</p>
+    </div>
+
+    <div class="form-card">
+
+        <div class="form-card-header">
+            <div class="header-icon">
+                <i class="bi bi-tags"></i>
+            </div>
+
+            <div>
+                <h5>Category Information</h5>
+                <span>Define the service type and its recommended maintenance interval.</span>
+            </div>
+        </div>
+
+        <div class="form-body">
+
+            <form asp-action="Create" method="post">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger border-0 rounded-3 mb-4">
+                </div>
+
+                <div class="mb-4">
+
+                    <label asp-for="CategoryName"
+                           class="form-label">
+                    </label>
+
+                    <input asp-for="CategoryName"
+                           class="form-control"
+                           placeholder="Example: Oil Change" />
+
+                    <span asp-validation-for="CategoryName"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label asp-for="Description"
+                           class="form-label">
+                    </label>
+
+                    <textarea asp-for="Description"
+                              class="form-control"
+                              rows="4"
+                              placeholder="Describe this service category">
+                    </textarea>
+
+                    <span asp-validation-for="Description"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+                <div class="mb-2">
+
+                    <label asp-for="RecommendedIntervalMonths"
+                           class="form-label">
+                    </label>
+
+                    <input asp-for="RecommendedIntervalMonths"
+                           class="form-control"
+                           type="number"
+                           min="1"
+                           max="120" />
+
+                    <div class="field-hint">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Enter the recommended number of months between services.
+                    </div>
+
+                    <span asp-validation-for="RecommendedIntervalMonths"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+                <div class="action-row">
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        <i class="bi bi-plus-lg me-2"></i>
+                        Create Category
+                    </button>
+
+                    <a asp-action="Index"
+                       class="btn btn-secondary">
+                        <i class="bi bi-arrow-left me-2"></i>
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+ 

@@ -1,0 +1,245 @@
+﻿
+@model IEnumerable<FleetCare_Pro.Models.Domain.Vehicle>
+
+<style>
+    .overdue-card {
+        height: 100%;
+        background: #fff;
+        border: 1px solid #e6eaf0;
+        border-radius: 18px;
+        box-shadow: 0 8px 28px rgba(23, 32, 51, .06);
+        overflow: hidden;
+    }
+
+    .overdue-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 20px;
+        border-bottom: 1px solid #edf0f5;
+    }
+
+    .overdue-header-left {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+    }
+
+    .overdue-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 11px;
+        background: #fff0f0;
+        color: #dc3545;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .overdue-header h5 {
+        margin: 0;
+        color: #172033;
+        font-weight: 700;
+        font-size: 1rem;
+    }
+
+    .overdue-header p {
+        margin: 2px 0 0;
+        color: #8992a3;
+        font-size: .76rem;
+    }
+
+    .overdue-count {
+        min-width: 30px;
+        height: 30px;
+        padding: 0 9px;
+        border-radius: 9px;
+        background: #ffe8e8;
+        color: #dc3545;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: .78rem;
+        font-weight: 750;
+    }
+
+    .overdue-body {
+        padding: 14px;
+    }
+
+    .vehicle-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        padding: 14px;
+        border: 1px solid #edf0f5;
+        border-radius: 13px;
+        margin-bottom: 9px;
+        background: #fff;
+        transition: all .15s ease;
+    }
+
+        .vehicle-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .vehicle-item:hover {
+            background: #fafcff;
+            border-color: #dce5f0;
+            transform: translateY(-1px);
+        }
+
+    .vehicle-info {
+        min-width: 0;
+    }
+
+    .vehicle-name {
+        color: #172033;
+        font-weight: 700;
+        font-size: .88rem;
+        margin-bottom: 4px;
+    }
+
+    .license-plate {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        color: #8992a3;
+        font-size: .75rem;
+    }
+
+    .vehicle-action {
+        flex-shrink: 0;
+        border-radius: 8px;
+        padding: 6px 11px;
+        font-size: .76rem;
+        font-weight: 650;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 35px 15px;
+    }
+
+    .empty-icon {
+        width: 46px;
+        height: 46px;
+        margin: 0 auto 12px;
+        border-radius: 13px;
+        background: #eaf8f0;
+        color: #198754;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+    }
+
+    .empty-state h6 {
+        color: #172033;
+        font-weight: 700;
+        margin-bottom: 4px;
+    }
+
+    .empty-state p {
+        color: #8992a3;
+        font-size: .8rem;
+        margin: 0;
+    }
+
+    @@media (max-width: 576px) {
+        .vehicle-item {
+            align-items: flex-start;
+        }
+
+        .vehicle-action {
+            padding: 6px 9px;
+        }
+    }
+</style>
+
+<div class="overdue-card">
+
+    <div class="overdue-header">
+
+        <div class="overdue-header-left">
+
+            <div class="overdue-icon">
+                <i class="bi bi-exclamation-triangle"></i>
+            </div>
+
+            <div>
+                <h5>Overdue Maintenance</h5>
+
+                <p>
+                    Vehicles requiring attention
+                </p>
+            </div>
+
+        </div>
+
+        <span class="overdue-count">
+            @Model.Count()
+        </span>
+
+    </div>
+
+    <div class="overdue-body">
+
+        @if (!Model.Any())
+        {
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    <i class="bi bi-check-lg"></i>
+                </div>
+
+                <h6>Everything is up to date</h6>
+
+                <p>
+                    All vehicles are currently up to date.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div>
+
+                @foreach (var vehicle in Model)
+                {
+                    <div class="vehicle-item">
+
+                        <div class="vehicle-info">
+
+                            <div class="vehicle-name">
+                                @vehicle.Make @vehicle.Model
+                            </div>
+
+                            <div class="license-plate">
+                                <i class="bi bi-credit-card-2-front"></i>
+                                @vehicle.LicensePlate
+                            </div>
+
+                        </div>
+
+                        <a asp-controller="Vehicle"
+                           asp-action="Details"
+                           asp-route-id="@vehicle.Id"
+                           class="btn btn-sm btn-outline-primary vehicle-action">
+
+                            <i class="bi bi-eye me-1"></i>
+                            View
+
+                        </a>
+
+                    </div>
+                }
+
+            </div>
+        }
+
+    </div>
+
+</div>
+

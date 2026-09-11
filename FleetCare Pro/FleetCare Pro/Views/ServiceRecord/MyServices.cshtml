@@ -1,0 +1,311 @@
+﻿
+@model IEnumerable<FleetCare_Pro.Models.Domain.ServiceRecord>
+
+@{
+    ViewData["Title"] = "My Maintenance";
+}
+
+<style>
+    .maintenance-page {
+        padding: 15px 0 50px;
+    }
+
+    .page-header {
+        margin-bottom: 28px;
+    }
+
+    .eyebrow {
+        color: #0d6efd;
+        font-size: .78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        margin-bottom: 5px;
+    }
+
+    .page-header h1 {
+        color: #172033;
+        font-weight: 750;
+        margin: 0 0 5px;
+    }
+
+    .page-header p {
+        color: #6b7280;
+        margin: 0;
+    }
+
+    .table-card {
+        background: #fff;
+        border: 1px solid #e6eaf0;
+        border-radius: 20px;
+        box-shadow: 0 10px 35px rgba(23,32,51,.06);
+        overflow: hidden;
+    }
+
+    .table-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 20px 24px;
+        border-bottom: 1px solid #edf0f5;
+    }
+
+    .table-header-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background: #e9f2ff;
+        color: #0d6efd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .table-header h5 {
+        margin: 0;
+        color: #172033;
+        font-weight: 700;
+    }
+
+    .table-header span {
+        color: #8992a3;
+        font-size: .82rem;
+    }
+
+    .empty-state {
+        padding: 55px 25px;
+        text-align: center;
+    }
+
+    .empty-icon {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 15px;
+        border-radius: 16px;
+        background: #e9f2ff;
+        color: #0d6efd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+
+    .empty-state h5 {
+        color: #172033;
+        font-weight: 700;
+    }
+
+    .empty-state p {
+        color: #8992a3;
+        margin: 0;
+    }
+
+    .maintenance-table {
+        margin: 0;
+    }
+
+        .maintenance-table thead th {
+            background: #f7f9fc;
+            color: #697386;
+            border-bottom: 1px solid #e5e9f0;
+            font-size: .74rem;
+            font-weight: 750;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            padding: 15px 17px;
+            white-space: nowrap;
+        }
+
+        .maintenance-table tbody td {
+            padding: 17px;
+            border-color: #edf0f5;
+            color: #4b5563;
+            vertical-align: middle;
+        }
+
+    .vehicle-name {
+        color: #172033;
+        font-weight: 700;
+    }
+
+    .center-name {
+        color: #172033;
+        font-weight: 600;
+    }
+
+    .date-value,
+    .mileage-value,
+    .cost-value {
+        white-space: nowrap;
+    }
+
+    .cost-value {
+        color: #172033;
+        font-weight: 700;
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 8px;
+        background: #eef2f6;
+        color: #5b6575;
+        font-size: .77rem;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+        .status-badge i {
+            font-size: .45rem;
+        }
+
+    .details-btn {
+        border-radius: 8px;
+        font-weight: 600;
+    }
+
+    @@media (max-width: 800px) {
+        .maintenance-table {
+            min-width: 850px;
+        }
+    }
+</style>
+
+<div class="container maintenance-page">
+
+    <div class="page-header">
+
+        <div class="eyebrow">
+            Vehicle Maintenance
+        </div>
+
+        <h1>
+            My Maintenance
+        </h1>
+
+        <p>
+            Service records for your assigned vehicle.
+        </p>
+
+    </div>
+
+    <div class="table-card">
+
+        <div class="table-header">
+
+            <div class="table-header-icon">
+                <i class="bi bi-car-front-fill"></i>
+            </div>
+
+            <div>
+                <h5>My Service History</h5>
+                <span>Maintenance records for your assigned vehicle</span>
+            </div>
+
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    <i class="bi bi-clipboard-x"></i>
+                </div>
+
+                <h5>
+                    No Maintenance Records
+                </h5>
+
+                <p>
+                    No maintenance records were found for your vehicle.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle maintenance-table">
+
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Vehicle</th>
+                            <th>Service Center</th>
+                            <th>Mileage</th>
+                            <th>Total Cost</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var service in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    <span class="date-value">
+                                        @service.ServiceDate.ToString("dd/MM/yyyy")
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="vehicle-name">
+                                        @service.Vehicle?.Make @service.Vehicle?.Model
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <span class="center-name">
+                                        @service.ServiceCenter?.Name
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="mileage-value">
+                                        @service.CurrentMileage km
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="cost-value">
+                                        @service.TotalCost.ToString("C")
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="status-badge">
+                                        <i class="bi bi-circle-fill"></i>
+                                        @service.Status
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <a asp-controller="ServiceRecord"
+                                       asp-action="Details"
+                                       asp-route-id="@service.Id"
+                                       class="btn btn-sm btn-outline-primary details-btn">
+                                        <i class="bi bi-eye me-1"></i>
+                                        Details
+                                    </a>
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+
+    </div>
+
+</div>
+

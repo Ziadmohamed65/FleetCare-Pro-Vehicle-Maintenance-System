@@ -1,0 +1,173 @@
+﻿@model IEnumerable<FleetCare_Pro.Models.Domain.Vehicle>
+
+@{
+    ViewData["Title"] = "My Vehicles";
+}
+
+<style>
+    .vehicles-page {
+        background: #f6f8fc;
+        min-height: calc(100vh - 70px);
+        padding: 35px 0 60px;
+    }
+
+    .page-header {
+        margin-bottom: 30px;
+    }
+
+    .page-title-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .page-title {
+        font-size: 30px;
+        font-weight: 750;
+        color: #172033;
+        margin: 0 0 6px;
+    }
+
+    .page-subtitle {
+        color: #7b8495;
+        margin: 0;
+        font-size: 14px;
+    }
+
+    .vehicle-count {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 8px 13px;
+        border-radius: 9px;
+        background: white;
+        border: 1px solid #e5e9ef;
+        color: #667085;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+        .vehicle-count i {
+            color: #0d6efd;
+        }
+
+    .empty-state {
+        background: white;
+        border: 1px solid #e7ebf1;
+        border-radius: 18px;
+        padding: 65px 25px;
+        text-align: center;
+        box-shadow: 0 8px 30px rgba(25,42,70,.05);
+    }
+
+    .empty-icon {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 18px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #eaf2ff;
+        color: #0d6efd;
+        font-size: 29px;
+    }
+
+    .empty-title {
+        color: #202939;
+        font-weight: 700;
+        margin-bottom: 7px;
+    }
+
+    .empty-text {
+        color: #8a93a3;
+        font-size: 14px;
+        margin: 0;
+    }
+
+    @@media (max-width: 576px) {
+        .vehicles-page {
+            padding: 25px 15px 40px;
+        }
+
+        .page-title-row {
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .page-title {
+            font-size: 25px;
+        }
+
+        .vehicle-count {
+            display: none;
+        }
+    }
+</style>
+
+<div class="vehicles-page">
+
+    
+    <div class="container">
+
+        <div class="page-header">
+
+            <div class="page-title-row">
+
+                <div>
+                    <h1 class="page-title">
+                        My Vehicles
+                    </h1>
+
+                    <p class="page-subtitle">
+                        Vehicles currently assigned to you.
+                    </p>
+                </div>
+
+                @if (Model.Any())
+                {
+                    <div class="vehicle-count">
+                        <i class="bi bi-truck"></i>
+                        @Model.Count() Vehicle@(Model.Count() == 1 ? "" : "s")
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+
+        @if (!Model.Any())
+        {
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    <i class="bi bi-truck"></i>
+                </div>
+
+                <h4 class="empty-title">
+                    No Vehicles Assigned
+                </h4>
+
+                <p class="empty-text">
+                    There are currently no vehicles assigned to your account.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="row g-4">
+
+                @foreach (var vehicle in Model)
+                {
+                    <partial name="_VehicleCard" model="vehicle" />
+                }
+
+            </div>
+        }
+
+    </div>
+    
+
+</div>

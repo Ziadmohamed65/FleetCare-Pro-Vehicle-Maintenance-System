@@ -1,0 +1,252 @@
+﻿@model FleetCare_Pro.Models.ViewModels.ServiceCategory.ServiceCategoryEditViewModel
+
+@{
+    ViewData["Title"] = "Edit Service Category";
+}
+
+<style>
+    .edit-page {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 0 50px;
+    }
+
+    .edit-header {
+        margin-bottom: 26px;
+    }
+
+        .edit-header .eyebrow {
+            color: #0d6efd;
+            font-size: .78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+        }
+
+        .edit-header h1 {
+            color: #172033;
+            font-weight: 750;
+            margin: 5px 0;
+        }
+
+        .edit-header p {
+            color: #6b7280;
+            margin: 0;
+        }
+
+    .edit-card {
+        background: #fff;
+        border: 1px solid #e6eaf0;
+        border-radius: 20px;
+        box-shadow: 0 10px 35px rgba(23, 32, 51, .06);
+        overflow: hidden;
+    }
+
+    .edit-card-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 24px 28px;
+        border-bottom: 1px solid #edf0f5;
+        background: linear-gradient(135deg, #f8fbff, #fff);
+    }
+
+    .edit-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #e9f2ff;
+        color: #0d6efd;
+        font-size: 1.3rem;
+    }
+
+    .edit-card-header h5 {
+        margin: 0;
+        font-weight: 700;
+        color: #172033;
+    }
+
+    .edit-card-header span {
+        color: #7b8494;
+        font-size: .87rem;
+    }
+
+    .edit-body {
+        padding: 30px;
+    }
+
+    .form-label {
+        color: #273247;
+        font-weight: 650;
+        margin-bottom: 8px;
+    }
+
+    .form-control {
+        border: 1px solid #dfe4ec;
+        border-radius: 11px;
+        padding: 11px 14px;
+    }
+
+        .form-control:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 .2rem rgba(13, 110, 253, .1);
+        }
+
+    textarea.form-control {
+        resize: vertical;
+    }
+
+    .action-row {
+        display: flex;
+        gap: 10px;
+        margin-top: 28px;
+        padding-top: 24px;
+        border-top: 1px solid #edf0f5;
+    }
+
+    .btn {
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-weight: 600;
+    }
+
+    .btn-secondary {
+        background: #f1f3f6;
+        color: #4b5563;
+        border: none;
+    }
+
+    @@media (max-width: 576px) {
+        .edit-body, .edit-card-header
+
+    {
+        padding: 22px;
+    }
+
+    .action-row {
+        flex-direction: column;
+    }
+
+        .action-row .btn {
+            width: 100%;
+        }
+
+    }
+</style>
+
+<div class="container edit-page">
+
+    <div class="edit-header">
+        <div class="eyebrow">Service Management</div>
+        <h1>Edit Service Category</h1>
+        <p>Update the maintenance category information.</p>
+    </div>
+
+    <div class="edit-card">
+
+        <div class="edit-card-header">
+
+            <div class="edit-icon">
+                <i class="bi bi-pencil-square"></i>
+            </div>
+
+            <div>
+                <h5>Category Information</h5>
+                <span>Modify the details below and save your changes.</span>
+            </div>
+
+        </div>
+
+        <div class="edit-body">
+
+            <form asp-action="Edit" method="post">
+
+                <input type="hidden" asp-for="Id" />
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger border-0 rounded-3 mb-4">
+                </div>
+
+                <div class="mb-4">
+
+                    <label asp-for="CategoryName"
+                           class="form-label">
+                    </label>
+
+                    <input asp-for="CategoryName"
+                           class="form-control" />
+
+                    <span asp-validation-for="CategoryName"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label asp-for="Description"
+                           class="form-label">
+                    </label>
+
+                    <textarea asp-for="Description"
+                              class="form-control"
+                              rows="4">
+                    </textarea>
+
+                    <span asp-validation-for="Description"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+                <div class="mb-2">
+
+                    <label asp-for="RecommendedIntervalMonths"
+                           class="form-label">
+                    </label>
+
+                    <input asp-for="RecommendedIntervalMonths"
+                           class="form-control"
+                           type="number"
+                           min="1"
+                           max="120" />
+
+                    <span asp-validation-for="RecommendedIntervalMonths"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+                <div class="action-row">
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        <i class="bi bi-check2-circle me-2"></i>
+                        Save Changes
+                    </button>
+
+                    <a asp-action="Index"
+                       class="btn btn-secondary">
+                        <i class="bi bi-x-lg me-2"></i>
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

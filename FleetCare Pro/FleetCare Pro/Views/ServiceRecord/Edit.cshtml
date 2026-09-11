@@ -1,0 +1,878 @@
+﻿
+@model FleetCare_Pro.Models.ViewModels.ServiceRecord.ServiceRecordEditViewModel
+
+@{
+    ViewData["Title"] = "Edit Service Record";
+
+    var vehicles =
+        ViewBag.Vehicles as IEnumerable<SelectListItem>
+        ?? Enumerable.Empty<SelectListItem>();
+
+    var serviceCenters =
+        ViewBag.ServiceCenters as IEnumerable<SelectListItem>
+        ?? Enumerable.Empty<SelectListItem>();
+
+    var categories =
+        ViewBag.ServiceCategories as IEnumerable<SelectListItem>
+        ?? Enumerable.Empty<SelectListItem>();
+}
+
+<style>
+    .service-page {
+        background: #f6f8fc;
+        min-height: calc(100vh - 70px);
+        padding: 35px 0 60px;
+    }
+
+    .page-header {
+        margin-bottom: 28px;
+    }
+
+    .eyebrow {
+        color: #0d6efd;
+        font-size: .78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        margin-bottom: 5px;
+    }
+
+    .page-title {
+        color: #172033;
+        font-size: 30px;
+        font-weight: 750;
+        margin: 0 0 6px;
+    }
+
+    .page-subtitle {
+        color: #7b8495;
+        font-size: 14px;
+        margin: 0;
+    }
+
+    .form-card {
+        background: white;
+        border: 1px solid #e5e9ef;
+        border-radius: 20px;
+        box-shadow: 0 10px 35px rgba(23, 32, 51, .06);
+        overflow: hidden;
+        margin-bottom: 22px;
+    }
+
+    .card-header-custom {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 20px 24px;
+        border-bottom: 1px solid #edf0f5;
+    }
+
+    .header-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background: #e9f2ff;
+        color: #0d6efd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .card-header-custom h5 {
+        margin: 0;
+        color: #172033;
+        font-weight: 700;
+    }
+
+    .card-header-custom span {
+        display: block;
+        color: #8992a3;
+        font-size: .82rem;
+        margin-top: 2px;
+    }
+
+    .card-body-custom {
+        padding: 25px 24px;
+    }
+
+    .form-label {
+        color: #344054;
+        font-size: .84rem;
+        font-weight: 650;
+        margin-bottom: 7px;
+    }
+
+    .form-control,
+    .form-select {
+        border: 1px solid #d9dee7;
+        border-radius: 10px;
+        padding: 10px 12px;
+        color: #344054;
+        font-size: .9rem;
+    }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 .2rem rgba(13, 110, 253, .1);
+        }
+
+    textarea.form-control {
+        min-height: 110px;
+        resize: vertical;
+    }
+
+    .validation-message {
+        color: #dc3545;
+        font-size: .78rem;
+        margin-top: 5px;
+    }
+
+    .line-items-card {
+        background: white;
+        border: 1px solid #e5e9ef;
+        border-radius: 20px;
+        box-shadow: 0 10px 35px rgba(23, 32, 51, .06);
+        overflow: hidden;
+        margin-bottom: 22px;
+    }
+
+    .line-items-body {
+        padding: 20px 24px 24px;
+    }
+
+    .line-item {
+        background: #f8fafc;
+        border: 1px solid #e5e9ef;
+        border-radius: 14px;
+        padding: 17px;
+        margin-bottom: 12px;
+    }
+
+        .line-item:last-child {
+            margin-bottom: 0;
+        }
+
+    .remove-row {
+        width: 38px;
+        height: 38px;
+        border-radius: 9px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+    }
+
+    .add-row-btn {
+        border-radius: 9px;
+        font-weight: 600;
+        font-size: .84rem;
+        margin-top: 15px;
+    }
+
+    .invoice-box {
+        background: #f8fafc;
+        border: 1px dashed #cfd6e2;
+        border-radius: 12px;
+        padding: 15px;
+    }
+
+    .current-invoice {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+        padding: 11px 13px;
+        background: #eef6ff;
+        border: 1px solid #d8eaff;
+        border-radius: 10px;
+        color: #344054;
+        font-size: .84rem;
+    }
+
+        .current-invoice i {
+            color: #0d6efd;
+            font-size: 18px;
+        }
+
+    .total-box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+        padding: 16px 18px;
+        background: #f7f9fc;
+        border: 1px solid #e5e9ef;
+        border-radius: 12px;
+    }
+
+    .total-label {
+        color: #667085;
+        font-size: .85rem;
+        font-weight: 650;
+    }
+
+    .total-value {
+        color: #172033;
+        font-size: 21px;
+        font-weight: 750;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 25px;
+    }
+
+        .form-actions .btn {
+            border-radius: 10px;
+            padding: 10px 18px;
+            font-weight: 650;
+        }
+
+    .cancel-btn {
+        border-color: #d0d5dd;
+        color: #344054;
+        background: white;
+    }
+
+        .cancel-btn:hover {
+            background: #f8fafc;
+        }
+
+    @@media (max-width: 768px) {
+        .service-page {
+            padding: 25px 15px 45px;
+        }
+
+        .page-title {
+            font-size: 25px;
+        }
+
+        .card-body-custom,
+        .line-items-body {
+            padding: 20px 17px;
+        }
+
+        .form-actions {
+            flex-direction: column-reverse;
+        }
+
+            .form-actions .btn {
+                width: 100%;
+            }
+    }
+</style>
+
+<div class="service-page">
+
+    <div class="container">
+
+        <div class="page-header">
+
+            <div class="eyebrow">
+                Maintenance Management
+            </div>
+
+            <h1 class="page-title">
+                Edit Service Record
+            </h1>
+
+            <p class="page-subtitle">
+                Update the maintenance details, services, costs, and invoice.
+            </p>
+
+        </div>
+
+
+        <form asp-action="Edit"
+              method="post"
+              enctype="multipart/form-data">
+
+            @Html.AntiForgeryToken()
+
+            <input asp-for="Id" type="hidden" />
+
+            <div asp-validation-summary="ModelOnly"
+                 class="alert alert-danger"
+                 role="alert">
+            </div>
+
+
+            <!-- SERVICE INFORMATION -->
+
+            <div class="form-card">
+
+                <div class="card-header-custom">
+
+                    <div class="header-icon">
+                        <i class="bi bi-clipboard2-check"></i>
+                    </div>
+
+                    <div>
+                        <h5>Service Information</h5>
+                        <span>Update the vehicle and maintenance details.</span>
+                    </div>
+
+                </div>
+
+                <div class="card-body-custom">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+
+                            <label asp-for="VehicleId"
+                                   class="form-label">
+                                Vehicle
+                            </label>
+
+                            <select asp-for="VehicleId"
+                                    asp-items="vehicles"
+                                    class="form-select">
+                                <option value="">
+                                    Select vehicle
+                                </option>
+                            </select>
+
+                            <span asp-validation-for="VehicleId"
+                                  class="validation-message">
+                            </span>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <label asp-for="ServiceCenterId"
+                                   class="form-label">
+                                Service Center
+                            </label>
+
+                            <select asp-for="ServiceCenterId"
+                                    asp-items="serviceCenters"
+                                    class="form-select">
+                                <option value="">
+                                    Select service center
+                                </option>
+                            </select>
+
+                            <span asp-validation-for="ServiceCenterId"
+                                  class="validation-message">
+                            </span>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <label asp-for="ServiceDate"
+                                   class="form-label">
+                                Service Date
+                            </label>
+
+                            <input asp-for="ServiceDate"
+                                   type="date"
+                                   class="form-control" />
+
+                            <span asp-validation-for="ServiceDate"
+                                  class="validation-message">
+                            </span>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <label asp-for="CurrentMileage"
+                                   class="form-label">
+                                Current Mileage
+                            </label>
+
+                            <input asp-for="CurrentMileage"
+                                   type="number"
+                                   min="0"
+                                   class="form-control"
+                                   placeholder="Enter current mileage" />
+
+                            <span asp-validation-for="CurrentMileage"
+                                  class="validation-message">
+                            </span>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <label asp-for="Status"
+                                   class="form-label">
+                                Status
+                            </label>
+
+                            <select asp-for="Status"
+                                    asp-items="Html.GetEnumSelectList<FleetCare_Pro.Models.Enums.ServiceStatus>()"
+                                    class="form-select">
+                            </select>
+
+                            <span asp-validation-for="Status"
+                                  class="validation-message">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SERVICE ITEMS -->
+
+            <div class="line-items-card">
+
+                <div class="card-header-custom">
+
+                    <div class="header-icon">
+                        <i class="bi bi-tools"></i>
+                    </div>
+
+                    <div>
+                        <h5>Service Items</h5>
+                        <span>Add or update the individual maintenance services.</span>
+                    </div>
+
+                </div>
+
+                <div class="line-items-body">
+
+                    <div id="lineItemsBody">
+
+                        @for (int i = 0; i < Model.ServiceLineItems.Count; i++)
+                        {
+                            <div class="line-item">
+
+                                <div class="row g-3 align-items-end">
+
+                                    <div class="col-lg-4">
+
+                                        <label class="form-label">
+                                            Service Category
+                                        </label>
+
+                                        <select asp-for="ServiceLineItems[i].ServiceCategoryId"
+                                                asp-items="categories"
+                                                class="form-select service-category">
+                                            <option value="">
+                                                Select service
+                                            </option>
+                                        </select>
+
+                                        <span asp-validation-for="ServiceLineItems[i].ServiceCategoryId"
+                                              class="validation-message">
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="col-lg-4">
+
+                                        <label class="form-label">
+                                            Description
+                                        </label>
+
+                                        <input asp-for="ServiceLineItems[i].Description"
+                                               class="form-control"
+                                               placeholder="Service description" />
+
+                                        <span asp-validation-for="ServiceLineItems[i].Description"
+                                              class="validation-message">
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="col-lg-3">
+
+                                        <label class="form-label">
+                                            Cost
+                                        </label>
+
+                                        <input asp-for="ServiceLineItems[i].Cost"
+                                               type="number"
+                                               step="0.01"
+                                               min="0"
+                                               class="form-control item-cost"
+                                               placeholder="0.00" />
+
+                                        <span asp-validation-for="ServiceLineItems[i].Cost"
+                                              class="validation-message">
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="col-lg-1 text-end">
+
+                                        <button type="button"
+                                                class="btn btn-outline-danger remove-row"
+                                                title="Remove service">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+
+
+                    <button type="button"
+                            id="addRow"
+                            class="btn btn-outline-primary add-row-btn">
+
+                        <i class="bi bi-plus-lg me-1"></i>
+                        Add Service Item
+
+                    </button>
+
+
+                    <div class="total-box">
+
+                        <span class="total-label">
+                            Estimated Total
+                        </span>
+
+                        <span id="totalCost"
+                              class="total-value">
+                            @Model.ServiceLineItems.Sum(x => x.Cost).ToString("C")
+                        </span>
+
+                    </div>
+
+                    <span asp-validation-for="ServiceLineItems"
+                          class="validation-message">
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- INVOICE & NOTES -->
+
+            <div class="form-card">
+
+                <div class="card-header-custom">
+
+                    <div class="header-icon">
+                        <i class="bi bi-receipt"></i>
+                    </div>
+
+                    <div>
+                        <h5>Invoice & Notes</h5>
+                        <span>Update the invoice document and maintenance notes.</span>
+                    </div>
+
+                </div>
+
+                <div class="card-body-custom">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+
+                            <label asp-for="Invoice"
+                                   class="form-label">
+                                Replace Invoice
+                            </label>
+
+                            <div class="invoice-box">
+
+                                @if (!string.IsNullOrWhiteSpace(Model.ExistingInvoiceDocumentPath))
+                                {
+                                    <div class="current-invoice">
+
+                                        <i class="bi bi-file-earmark-text"></i>
+
+                                        <div>
+                                            <strong>Current invoice</strong>
+                                            <div>
+                                                <a href="@Model.ExistingInvoiceDocumentPath"
+                                                   target="_blank"
+                                                   class="text-decoration-none">
+                                                    View existing invoice
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                }
+
+                                <input asp-for="Invoice"
+                                       type="file"
+                                       class="form-control"
+                                       accept=".pdf,.jpg,.jpeg,.png" />
+
+                                <small class="text-muted d-block mt-2">
+                                    Leave empty to keep the current invoice.
+                                    Maximum size: 5 MB.
+                                </small>
+
+                            </div>
+
+                            <span asp-validation-for="Invoice"
+                                  class="validation-message">
+                            </span>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <label asp-for="Notes"
+                                   class="form-label">
+                                Notes
+                            </label>
+
+                            <textarea asp-for="Notes"
+                                      class="form-control"
+                                      placeholder="Add notes about this maintenance..."></textarea>
+
+                            <span asp-validation-for="Notes"
+                                  class="validation-message">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="form-actions">
+
+                <a asp-action="Index"
+                   class="btn btn-outline-secondary cancel-btn">
+                    <i class="bi bi-x-lg me-1"></i>
+                    Cancel
+                </a>
+
+                <button type="submit"
+                        class="btn btn-primary">
+                    <i class="bi bi-check-lg me-1"></i>
+                    Save Changes
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        function updateTotal() {
+            let total = 0;
+
+            document.querySelectorAll(".item-cost").forEach(input => {
+                const value = parseFloat(input.value);
+
+                if (!isNaN(value)) {
+                    total += value;
+                }
+            });
+
+            document.getElementById("totalCost").textContent =
+                total.toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "USD"
+                });
+        }
+
+
+        function reindexRows() {
+            const rows = document.querySelectorAll("#lineItemsBody .line-item");
+
+            rows.forEach((row, index) => {
+
+                row.querySelectorAll("input, select").forEach(element => {
+
+                    const name = element.getAttribute("name");
+
+                    if (name) {
+                        element.setAttribute(
+                            "name",
+                            name.replace(
+                                /ServiceLineItems\[\d+\]/,
+                                `ServiceLineItems[${index}]`
+                            )
+                        );
+                    }
+
+                    const id = element.getAttribute("id");
+
+                    if (id) {
+                        element.setAttribute(
+                            "id",
+                            id.replace(
+                                /ServiceLineItems_\d+_/,
+                                `ServiceLineItems_${index}_`
+                            )
+                        );
+                    }
+                });
+            });
+        }
+
+
+        document.getElementById("addRow")
+            .addEventListener("click", function () {
+
+                const container =
+                    document.getElementById("lineItemsBody");
+
+                const index =
+                    container.querySelectorAll(".line-item").length;
+
+                const row = document.createElement("div");
+
+                row.className = "line-item";
+
+                row.innerHTML = `
+                    <div class="row g-3 align-items-end">
+
+                        <div class="col-lg-4">
+
+                            <label class="form-label">
+                                Service Category
+                            </label>
+
+                            <select
+                                name="ServiceLineItems[${index}].ServiceCategoryId"
+                                class="form-select service-category">
+
+                                <option value="">
+                                    Select service
+                                </option>
+
+                                @foreach (var category in categories)
+                                {
+                                        <option value="@category.Value">
+                                            @category.Text
+                                        </option>
+                                }
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="col-lg-4">
+
+                            <label class="form-label">
+                                Description
+                            </label>
+
+                            <input
+                                type="text"
+                                name="ServiceLineItems[${index}].Description"
+                                class="form-control"
+                                placeholder="Service description" />
+
+                        </div>
+
+
+                        <div class="col-lg-3">
+
+                            <label class="form-label">
+                                Cost
+                            </label>
+
+                            <input
+                                type="number"
+                                name="ServiceLineItems[${index}].Cost"
+                                class="form-control item-cost"
+                                step="0.01"
+                                min="0"
+                                placeholder="0.00" />
+
+                        </div>
+
+
+                        <div class="col-lg-1 text-end">
+
+                            <button
+                                type="button"
+                                class="btn btn-outline-danger remove-row"
+                                title="Remove service">
+
+                                <i class="bi bi-trash3"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+                `;
+
+                container.appendChild(row);
+
+                updateTotal();
+            });
+
+
+        document
+            .getElementById("lineItemsBody")
+            .addEventListener("click", function (event) {
+
+                const button =
+                    event.target.closest(".remove-row");
+
+                if (!button) {
+                    return;
+                }
+
+                const rows =
+                    document.querySelectorAll("#lineItemsBody .line-item");
+
+                if (rows.length <= 1) {
+                    return;
+                }
+
+                button.closest(".line-item").remove();
+
+                reindexRows();
+                updateTotal();
+            });
+
+
+        document
+            .getElementById("lineItemsBody")
+            .addEventListener("input", function (event) {
+
+                if (event.target.classList.contains("item-cost")) {
+                    updateTotal();
+                }
+
+            });
+
+
+        updateTotal();
+    </script>
+}
